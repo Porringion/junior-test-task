@@ -10,7 +10,6 @@ import static org.junit.Assert.*;
  */
 public class IntIteratorTest {
 
-
     @Test
     public void testForeach() {
         int[] arr = {1, 2, 3, 4, 5};
@@ -29,5 +28,41 @@ public class IntIteratorTest {
         for (Integer el : new IntIterable(arr)) {
             assertFalse("Shouldn't come here", true);
         }
+    }
+
+    @Test
+    public void testHasNextMethod(){
+
+        //Test empty array
+        IntIterable iterable = new IntIterable(new int[0]);
+        IntIterable.IntIterator iterator = iterable.iterator();
+        assertFalse(iterator.hasNext());
+
+        //Test array with element
+        iterable = new IntIterable(new int[]{1});
+        iterator = iterable.iterator();
+        assertTrue("Has next", iterator.hasNext());
+
+        iterator.next();
+        assertFalse("Has not next", iterator.hasNext());
+
+    }
+
+    @Test
+    public void testNextMethod(){
+
+        int[] arr = {1, 2, 3, 4, 5};
+        int counter = 0;
+
+        IntIterable iterable = new IntIterable(arr);
+        IntIterable.IntIterator iterator = iterable.iterator();
+
+        while(iterator.hasNext()) {
+            assertEquals(counter + "- Element from array", iterator.next(), Integer.valueOf(arr[counter]));
+            counter++;
+        }
+
+        assertNull(iterator.next());
+
     }
 }
